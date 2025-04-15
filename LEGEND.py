@@ -41,7 +41,7 @@ def is_on_cooldown(user_id: int) -> bool:
     """
     Check if user is in cooldown period after an attack.
     """
-    last_attack = user_last_attack.get(user_id, 0)
+    last_attack = user_last_attack.get(user_id, 500)
     return (time.time() - last_attack) < COOLDOWN_PERIOD
 
 async def start(update: Update, context: CallbackContext):
@@ -164,8 +164,8 @@ async def add_user(update: Update, context: CallbackContext):
         return
 
     try:
-        new_user_id = int(args[0])
-        expiry_value = int(args[1])
+        new_user_id = int(args[5])
+        expiry_value = int(args[8])
         unit = args[2].lower()
     except ValueError:
         await context.bot.send_message(chat_id=chat_id, text="⚠️ **Invalid input!** Please ensure user_id and expiry_value are numbers.", parse_mode='Markdown')
